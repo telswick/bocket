@@ -23,4 +23,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the bookmarks of the user.
+     */
+    public function bookmarks()
+    {
+        return $this->hasMany('App\Bookmark');
+    }
+    /**
+     * Get the tags of the user.
+     */
+    public function tags()
+    {
+        return $this->hasMany('App\Tag');
+    }
+    /**
+     * Get the subscribed  of the user
+     */
+    // public function         ()
+    // {
+    //     return $this->belongsToMany('App\      ');
+    // }
 }
