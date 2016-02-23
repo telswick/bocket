@@ -16,28 +16,28 @@ class BookmarksController extends Controller
      */
     public function index()
     {
-        //
+        return \App\Bookmark::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
+     * Bookmarks have user_id and url
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $bookmark = new \App\Bookmark;
+
+        $bookmark->user_id = Auth::user()->id;
+        $bookmark->url = $request->url;
+
+        $bookmark->save();
+
+        return $bookmark;
     }
 
     /**
@@ -48,22 +48,16 @@ class BookmarksController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Bookmark::with([
+            'user', 'tags'
+        ])->find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
+     * Bookmarks have user_id and url
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -71,7 +65,14 @@ class BookmarksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bookmark = \App\Bookmark::find($id);
+
+        $bookmark->user_id = Auth::user()->id;
+        $bookmark->url = $request->url;
+
+        $bookmark->save();
+
+        return $bookmark;
     }
 
     /**
@@ -82,6 +83,9 @@ class BookmarksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $bookmark = \App\Bookmark::find($id);
+        $bookmark->delete();
+
+        return $bookmark;
     }
 }
