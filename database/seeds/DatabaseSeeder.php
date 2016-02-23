@@ -56,15 +56,14 @@ class DatabaseSeeder extends Seeder {
                     // our App\Bookmark model, $bookmark, has an id of 5, an
                     // entry on the bookmark_tag table will be created
                     // with a tag_id of 2 and a bookmark_id of 5
-                    if (!$bookmark->tags()->where('tag_id', $tag->id)->exists()) {
-                        $bookmark->tags()->attach($tag);
-                    }
+                    // if (!$bookmark->tags()->where('tag_id', $tag->id)->exists()) {
+                    //     $bookmark->tags()->attach($tag);
+                    // }
                 }
             });
         });
     }
 }
-
 
 
 /** class DatabaseSeeder extends Seeder
@@ -118,9 +117,9 @@ class DatabaseSeeder extends Seeder {
     			foreach (range(1, rand(2, 5)) as $int)  {
     				$bookmark = $bookmarks[rand(0, $bookmarks->count() - 1)];
     			// add check for bookmark exists
-    				if (!$bookmark->tags()->where('tag_id', $tag->id)->exists())  {
-    					$bookmark->tags()->attach($tag);
-    				}
+    				// if (!$bookmark->tags()->where('tag_id', $tag->id)->exists())  {
+    				// 	$bookmark->tags()->attach($tag);
+    				// }
     			}
     		}
 
@@ -129,4 +128,3 @@ class DatabaseSeeder extends Seeder {
     	});
     }
 }
-*/
