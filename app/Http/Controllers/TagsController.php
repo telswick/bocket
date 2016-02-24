@@ -16,28 +16,28 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
+        return \App\Tag::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
+     * Tags have user_id and name
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $tag = new \App\Tag;
+
+        $tag->user_id = Auth::user()->id;
+        $tag->name = $request->name;
+
+        $tag->save();
+
+        return $tag;
     }
 
     /**
@@ -48,22 +48,16 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Tag::with([
+            'user', 'bookmarks'
+            ])->find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
+     * Tags have user_id and name
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -71,7 +65,14 @@ class TagsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tag = \App\Tag::find($id);
+
+        $tag->user_id = Auth::user()->id;
+        $tag->name = $request->name;
+
+        $tag->save();
+
+        return $tag;
     }
 
     /**
@@ -82,6 +83,11 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tag = \App\Tag::find($id);
+        $tag->delete();
+
+        return $tag;
+
+        
     }
 }
