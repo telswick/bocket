@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +25,42 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', function () {
+    	return view('welcome');
+	});
+
+    // Adding routes for bookmarks
+    Route::resource('bookmarks', 'BookmarksController', [
+        'only' => ['index', 'show']
+    ]);   
+
+    // Adding routes for tags
+    Route::resource('tags', 'TagsController', [
+        'only' => ['index', 'show']
+    ]);   
+
+
+
 });
+
+
+// Question: what is the difference between ['web'] and 'web' groups?
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+
+
+    // Adding routes for bookmarks
+    Route::resource('bookmarks', 'BookmarksController', [
+        'except' => ['create', 'edit']
+    ]);
+
+    // Adding routes for tags
+    Route::resource('tags', 'TagsController', [
+        'except' => ['create', 'edit']
+    ]);
+
+});
+
