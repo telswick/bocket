@@ -11,7 +11,17 @@
 |
 */
 
+// Decided to move get and resource routes to web middleware group below
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+if (env('APP_DEBUG')) {
+    // Route to view logs. Only for use in development
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -24,49 +34,30 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/', function () {
-    	return view('welcome');
-	});
-
-    // Adding routes for bookmarks
-    Route::resource('bookmarks', 'BookmarksController', [
-        'only' => ['index', 'show']
-    ]);   
-
-    // Adding routes for tags
-    Route::resource('tags', 'TagsController', [
-        'only' => ['index', 'show']
-    ]);   
-
-
-
-});
-
-
-// Question: what is the difference between ['web'] and 'web' groups?
-
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
+    // this is where our app lives
     Route::get('/home', 'HomeController@index');
 
+    Route::group(['prefix' => 'api'], function () {
+        Route::resource('bookmarks', 'BookmarksController', [
+            'only' => ['index', 'show']
+        ]);
+        Route::resource('tags', 'TagsController', [
+            'only' => ['index', 'show']
+        ]);
 
-    // Adding routes for bookmarks
-    Route::resource('bookmarks', 'BookmarksController', [
-        'except' => ['create', 'edit']
-    ]);
 
-    // Adding routes for tags
-    Route::resource('tags', 'TagsController', [
-        'except' => ['create', 'edit']
-    ]);
-
+        Route::group(['middleware' => 'auth'], function () {
+            Route::resource('bookmarks', 'BookmarksController', [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+            Route::resource('tags', 'TagsController', [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+        });
+    });
 });
 
 
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});
