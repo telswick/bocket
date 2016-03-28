@@ -22,12 +22,12 @@
 
 	var BookmarksCollection = Backbone.Collection.extend({
 		url: '/api/bookmarks/',
-		model: PostModel
+		model: BookmarkModel
 	});
 
 	var TagsCollection = Backbone.Collection.extend({
-		url: '/api/tagss/',
-		model: SubbredditModel
+		url: '/api/tags/',
+		model: TagModel
 	});
 
 // Add Views for Home, Bookmarks, Tags	
