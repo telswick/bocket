@@ -20,4 +20,4 @@ var BookmarksListView = Backbone.View.extend({
 		}
 	});
 
-module.exports = PostsListView;
+module.exports = BookmarksListView;
