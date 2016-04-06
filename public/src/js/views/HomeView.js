@@ -20,8 +20,10 @@ var HomeView = Backbone.View.extend({
 		',
 
 		render: function() {
+			var BookmarksCollection = require('../collections/BookmarksCollection.js');
 			var bookmarks = new BookmarksCollection();
 			bookmarks.fetch();
+			var BookmarksListView = require('./BookmarksListView.js');
 			var bookmarksListView = new BookmarksListView({ 
 				collection: bookmarks
 			});
