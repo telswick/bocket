@@ -21,12 +21,12 @@
             width: 100%;
         }
 
-        #all-subbreddits {
+        #all-bookmarks {
             height: 600px;
             overflow: scroll;
         }
 
-        #posts {
+        #all-tags {
             height: 300px;
             overflow: scroll;
         }
@@ -34,6 +34,8 @@
     
 </head>
 <body>
+    <h2>Bocket - A Better Pocket Application</h2>
+    <h3>Here are your Bookmarks</h3>
     <div id="content"></div>
     <!-- JavaScripts (moving all but bundle.js) -->
     <script src="{{ asset('js/bundle.js') }}"></script>
